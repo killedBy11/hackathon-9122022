@@ -26,6 +26,9 @@ const ParkingSpot = sequelize => sequelize.define('ParkingSpot', {
     park_id: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    reservable: {
+        type: DataTypes.BOOLEAN
     }
 });
 

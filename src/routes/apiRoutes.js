@@ -21,4 +21,10 @@ router.get('/fetch-parking/:id', async (req, res, next) => {
     res.status(200).json({result});
 });
 
+router.post('/fetch-parking/:id/reservations', async (req, res, next) => {
+    const id = parseInt(req.params.id);
+    const result = await parkingController.getReservationsForDay(db, req.body.date, id);
+    res.status(200).json({result});
+});
+
 module.exports = router;

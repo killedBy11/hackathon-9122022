@@ -32,7 +32,6 @@ const retrievePrivateParkingInRange = async () => {
 }
 
 const parseDetailedParkingInformation = async (db, id) => {
-    // total hours spent here: 1
     const parking = await db.Parking.findByPk(id);
     const spots = await db.ParkingSpot.findAll({
         where: {
@@ -143,6 +142,44 @@ const parseDetailedParkingInformation = async (db, id) => {
     };
 };
 
+const getReservationsForDay = async (db, day, id) => {
+    const parking = await db.Parking.findByPk(id);
+    const spots = await db.ParkingSpot.findAll({
+        where: {
+            park_id: id
+        }
+    });
+
+    let reservations = [];
+
+    const date = new Date(day);
+    const nextDate = new Date();
+    nextDate.setDate(date.getDate() + 1);
+
+    for (let spot of spots) {
+        if (!spot.getDataValue('reservable')) {
+            reservations.push(undefined);
+            continue;
+        }
+        const todays = await db.Reservation.findAll({
+            where: {
+                spot_id: spot.getDataValue('spot_id'),
+                begin_time: {
+                    [Op.gte]: date,
+                    [Op.lt]: nextDate
+                }
+            }
+        });
+
+        reservations.push({
+            spot: spot,
+            reservations: todays
+        });
+    }
+    return reservations;
+}
+
 module.exports.retrievePublicParkingInRange = retrievePublicParkingInRange;
 module.exports.retrievePrivateParkingInRange = retrievePrivateParkingInRange;
 module.exports.parseDetailedParkingInformation = parseDetailedParkingInformation;
+module.exports.getReservationsForDay = getReservationsForDay;
