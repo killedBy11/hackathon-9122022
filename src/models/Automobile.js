@@ -15,16 +15,13 @@ const Automobile = sequelize => sequelize.define('Automobile', {
         type: DataTypes.STRING,
         allowNull: false
     },
-
     fuel_id:{
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    polluion_standard:{
+    pollution_standard:{
         type: DataTypes.INTEGER
     }
-
-
 });
 
 module.exports = Automobile;

@@ -10,18 +10,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 // Connect to the database
-const sequelize = require('./database/db');
-const parkingFactory = require('./models/Parking');
-const parking = parkingFactory(sequelize);
-
-
-// test query
-const f = async () => {
-    const parks = await parking.findAll({
-    atributes: ['park_id', 'latitude', 'longitude', 'active_days']
-    });
-    console.log("All parkings:", JSON.stringify(parks, null, 2));
-}
+const db = require('./database/db');
 
 // Configure required http headers
 app.use(bodyParser.json());
