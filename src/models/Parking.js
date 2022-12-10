@@ -57,6 +57,10 @@ const Parking = sequelize => sequelize.define('Parking', {
     },
     end_day6: {
         type: DataTypes.DATE
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 });
 
