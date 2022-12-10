@@ -22,6 +22,7 @@ const Reservation = require('../models/Reservation')(sequelize);
 const Transaction = require('../models/Transaction')(sequelize);
 const OccupiedPersonalSpot = require('../models/OccupiedPersonalSpot')(sequelize);
 const OccupiedPublicSpot = require('../models/OccupiedPublicSpot')(sequelize);
+const Token = require('../models/Token')(sequelize);
 
 ParkingSpot.belongsTo(Parking, {foreignKey: 'park_id'});
 Parking.hasMany(ParkingSpot, {sourceKey: 'park_id', foreignKey: 'park_id'});
@@ -52,6 +53,9 @@ OccupiedPersonalSpot.belongsTo(Customer, {foreignKey: 'customer_id'});
 PersonalParkingSpot.hasMany(OccupiedPersonalSpot, {sourceKey: 'spot_id', foreignKey: 'spot_id'});
 Customer.hasMany(OccupiedPersonalSpot, {sourceKey: 'customer_id', foreignKey: 'customer_id'});
 
+Token.belongsTo(Customer, {foreignKey: 'customer_id'});
+Customer.hasMany(Token, {sourceKey: 'customer_id', foreignKey: 'customer_id'});
+
 module.exports.Connection = sequelize;
 module.exports.Parking = Parking;
 module.exports.ParkingSpot = ParkingSpot;
@@ -63,3 +67,4 @@ module.exports.Reservation = Reservation;
 module.exports.Transaction = Transaction;
 module.exports.OccupiedPersonalSpot = OccupiedPersonalSpot;
 module.exports.OccupiedPublicSpot = OccupiedPublicSpot;
+module.exports.Token = Token;

@@ -8,15 +8,16 @@ const parseParkingDTO = parking => ({
 });
 
 const retrievePublicParkingInRange = async (db, latitude, longitude, range) => {
+    const rng = range > process.env.MAX_RANGE ? process.env.MAX_RANGE : range;
     const parkings = await db.Parking.findAll({
         where: {
             latitude: {
-                [Op.lt]: latitude + range / process.env.RANGE_MULTIPLIER,
-                [Op.gt]: latitude - range / process.env.RANGE_MULTIPLIER,
+                [Op.lt]: latitude + rng / process.env.RANGE_MULTIPLIER,
+                [Op.gt]: latitude - rng / process.env.RANGE_MULTIPLIER,
             },
             longitude: {
-                [Op.lt]: longitude + range / process.env.RANGE_MULTIPLIER,
-                [Op.gt]: longitude - range / process.env.RANGE_MULTIPLIER,
+                [Op.lt]: longitude + rng / process.env.RANGE_MULTIPLIER,
+                [Op.gt]: longitude - rng / process.env.RANGE_MULTIPLIER,
             }
         }
     });

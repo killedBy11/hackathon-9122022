@@ -26,10 +26,12 @@ const HOST = '0.0.0.0';
 // App
 const uiRoutes = require('./routes/uiRoutes');
 const apiRoutes = require('./routes/apiRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Routes
 app.use("/", uiRoutes);
 app.use("/api", apiRoutes);
+app.use("/authentication", authRoutes);
 
 app.listen(PORT, HOST, () => {
     console.log(`Running on http://${HOST}:${PORT}`);

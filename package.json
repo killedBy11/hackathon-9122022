@@ -12,6 +12,9 @@
         "express": "^4.16.1",
         "dotenv": "^16.0.3",
         "sequelize": "^6.26.0",
-        "mariadb": "^3.0.2"
+        "mariadb": "^3.0.2",
+        "email-deep-validator": "^3.3.0",
+        "crypto-js": "^4.1.1",
+        "randomstring": "^1.2.3"
     }
 }
