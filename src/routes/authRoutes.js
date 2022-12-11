@@ -57,4 +57,34 @@ router.post('/register-vehicle', async (req, res, next) => {
     res.status(toSend[0]).json(toSend[1]);
 });
 
+router.post('/get-vehicles', async (req, res, next) => {
+    const toSend = await middleware(async () => (await vehicleController.getVehicles(db, req.body.token)), db, req.body.token);
+    res.status(toSend[0]).json(toSend[1]);
+});
+
+router.post('/make-reservation', async (req, res, next) => {
+    const toSend = await middleware(async () => (await vehicleController.makeReservation(db, req.body.autoId, req.body.parkingId, req.body.type, req.body.beginTime, req.body.endTime, req.body.token)), db, req.body.token);
+    res.status(toSend[0]).json(toSend[1]);
+});
+
+router.post('/occupy-spot', async (req, res, next) => {
+    const toSend = await middleware(async () => (await vehicleController.occupyPublicSpot(db, req.body.autoId, req.body.spotId, req.body.tensOfMinutes, req.body.token)), db, req.body.token);
+    res.status(toSend[0]).json(toSend[1]);
+});
+
+router.post('/get-balance', async (req, res, next) => {
+    const toSend = await middleware(async () => {
+        const t = await db.Token.findOne({
+            where: {
+                token: req.body.token
+            }
+        });
+        const c = await db.Customer.findByPk(t.getDataValue('customer_id'));
+        return {
+            balance: c.getDataValue('balance')
+        };
+    }, db, req.body.token);
+    res.status(toSend[0]).json(toSend[1]);
+});
+
 module.exports = router;

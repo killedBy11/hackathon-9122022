@@ -84,7 +84,6 @@ const checkToken = async (db, token) => {
             token: token
         }
     });
-
     if (oldToken === null || oldToken === undefined) {
         throw new Error('invalid tokens');
     }

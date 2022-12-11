@@ -74,7 +74,9 @@ const parseDetailedParkingInformation = async (db, id) => {
         const o = await db.OccupiedPublicSpot.findAll({
             where: {
                 spot_id: spot.getDataValue('spot_id'),
-                end: null
+                end: {
+                    [Op.gt]: Date.now()
+                }
             }
         });
         if (spot.getDataValue('spot_type') === "REGULAR") {
@@ -145,6 +147,9 @@ const parseDetailedParkingInformation = async (db, id) => {
 
 const getReservationsForDay = async (db, day, id) => {
     const parking = await db.Parking.findByPk(id);
+    if (parking === undefined || parking === null) {
+        return null;
+    }
     const spots = await db.ParkingSpot.findAll({
         where: {
             park_id: id
