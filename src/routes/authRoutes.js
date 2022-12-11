@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../database/db');
 const authController = require('../controller/authenticationController');
+const vehicleController = require('../controller/vehicleController');
+const middleware = require('../middlewares/checkUserAuthenticated');
 
 router.post('/register', async (req, res, next) => {
     try{
@@ -43,6 +45,11 @@ router.post('/refresh-token', async (req, res, next) => {
             errorMessage: e.message
         });
     }
+});
+
+router.post('/register-vehicle', async (req, res, next) => {
+    const toSend = await middleware(async () => (await vehicleController.registerVehicle(db, req.body.registrationPlate, req.body.fuelId, req.body.pollutionStandard, req.body.token)), db, req.body.token);
+    res.status(toSend[0]).json(toSend[1]);
 });
 
 module.exports = router;
