@@ -47,6 +47,11 @@ router.post('/refresh-token', async (req, res, next) => {
     }
 });
 
+router.post('/get-fuels', async (req, res, next) => {
+    const toSend = await middleware(async () => (await vehicleController.getFuelTypes(db)), db, req.body.token);
+    res.status(toSend[0]).json(toSend[1]);
+});
+
 router.post('/register-vehicle', async (req, res, next) => {
     const toSend = await middleware(async () => (await vehicleController.registerVehicle(db, req.body.registrationPlate, req.body.fuelId, req.body.pollutionStandard, req.body.token)), db, req.body.token);
     res.status(toSend[0]).json(toSend[1]);

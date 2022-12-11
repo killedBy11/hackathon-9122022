@@ -11,6 +11,10 @@ router.get('/login', (req, res) => {
 
 router.get('/register', (req, res) => {
     res.send("registration form");
-})
+});
+
+router.get('/register-vehicle', (req, res) => {
+    res.send("vehicle registration form");
+});
 
 module.exports = router;

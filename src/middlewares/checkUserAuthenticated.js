@@ -7,7 +7,7 @@ const middleware = async (trigger, db, token) => {
 
     try {
         await checkTokens(db, token);
-        return [200, trigger()];
+        return [200, await trigger()];
     } catch (e) {
         return [401, null];
     }

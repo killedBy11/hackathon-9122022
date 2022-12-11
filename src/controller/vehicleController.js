@@ -21,4 +21,21 @@ const registerVehicle = async (db, registrationPlate, fuel, pollutionStandard, t
     return null;
 }
 
+const getFuelTypes = async (db) => {
+    const fuels = await db.FuelType.findAll();
+
+    let fuelTypes = [];
+
+    for (const fuel of fuels) {
+        fuelTypes.push({
+            fuelId: fuel.getDataValue('fuel_id'),
+            name: fuel.getDataValue('name')
+        });
+    }
+    return {
+        fuels: fuelTypes
+    };
+}
+
 module.exports.registerVehicle = registerVehicle;
+module.exports.getFuelTypes = getFuelTypes;
